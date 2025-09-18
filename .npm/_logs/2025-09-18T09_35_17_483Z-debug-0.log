@@ -1,0 +1,17 @@
+0 verbose cli /usr/local/bin/node /usr/local/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@10.9.2
+2 info using node@v22.13.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/viktor/Desktop/tracking/.npmrc
+5 silly config load:file:/usr/local/etc/npmrc
+6 verbose title npm exec netlify build
+7 verbose argv "exec" "--" "netlify" "build"
+8 verbose logfile logs-max:10 dir:/Users/viktor/Desktop/tracking/.npm/_logs/2025-09-18T09_35_17_483Z-
+9 verbose logfile /Users/viktor/Desktop/tracking/.npm/_logs/2025-09-18T09_35_17_483Z-debug-0.log
+10 silly logfile done cleaning log files
+11 verbose cwd /Users/viktor/Desktop/tracking
+12 verbose os Darwin 24.6.0
+13 verbose node v22.13.0
+14 verbose npm  v10.9.2
+15 verbose exit 2
+16 verbose code 2

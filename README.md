@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# КП Трекер
 
-## Getting Started
+Веб‑сервис для формирования коммерческих предложений, отправки клиентам по ссылке, отслеживания просмотров и выгрузки итогового документа в PDF.
 
-First, run the development server:
+## Основные возможности
+- создание коммерческих предложений с позициями, ценами и сроками действия;
+- автоматическая генерация номера КП и защищённой ссылки для клиента;
+- публичная страница просмотра с учётом статистики посещений;
+- скачивание PDF‑версии предложения как для менеджера, так и для клиента;
+- хранение данных в SQLite через Prisma ORM.
 
+## Технологический стек
+- [Next.js 15](https://nextjs.org/) (App Router, TypeScript, Tailwind CSS);
+- [Prisma](https://www.prisma.io/) + SQLite для работы с данными;
+- [PDFKit](https://pdfkit.org/) для генерации PDF.
+
+## Требования
+- Node.js 18+;
+- npm (устанавливается вместе с Node.js).
+
+## Быстрый старт
 ```bash
+# Установка зависимостей
+npm install
+
+# Подготовка базы данных
+npx prisma migrate dev --name init
+
+# Запуск режима разработки
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+После запуска откройте [http://localhost:3000](http://localhost:3000), чтобы работать с приложением. Новое КП создаётся на странице `/proposals/new`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Переменные окружения
+Все настройки находятся в файле `.env`. По умолчанию используется локальная SQLite-база:
+```
+DATABASE_URL="file:./prisma/dev.db"
+```
+При необходимости замените путь на собственный файл или используйте другой тип базы данных, обновив конфигурацию в `prisma/schema.prisma`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Управление схемой Prisma
+```bash
+# Проверка схемы
+npx prisma validate
 
-## Learn More
+# Генерация Prisma Client (обычно выполняется автоматически)
+npx prisma generate
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Сценарии npm
+- `npm run dev` — запуск локального сервера разработки;
+- `npm run build` — production-сборка Next.js;
+- `npm run start` — запуск собранного приложения;
+- `npm run lint` — проверка кода ESLint.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Структура проекта
+- `src/app` — маршруты Next.js (панель управления, публичная страница, API);
+- `src/components` — клиентские React-компоненты (форма создания КП, кнопка копирования ссылки);
+- `src/lib` — вспомогательные модули (Prisma Client, сервисы, форматирование);
+- `prisma` — схема данных и миграции.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Особенности разработки
+- При первом запуске `npm run build` возможны предупреждения Next.js о нескольких lock-файлах. Убедитесь, что в рабочей директории проекта остается только один `package-lock.json`.
+- PDF формируется динамически на сервере; для корректной работы убедитесь, что окружение разрешает запись во временную память процесса.
 
-## Deploy on Vercel
+## Дальнейшие улучшения
+- Добавить авторизацию и разграничение доступа по ролям;
+- Настроить отправку уведомлений клиенту на email;
+- Реализовать аналитику по источникам просмотров и статусы согласования.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Готово! Теперь вы можете формировать и отправлять коммерческие предложения прямо из приложения.
