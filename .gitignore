@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local artifacts
+public/uploads/*
+!public/uploads/.gitkeep
+dev.log
+resp_*
+test.pdf
+prisma/**/dev.db
