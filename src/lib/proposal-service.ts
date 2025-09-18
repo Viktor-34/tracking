@@ -19,6 +19,8 @@ export type CreateProposalInput = {
   companyName?: string | null;
   summary?: string | null;
   notes?: string | null;
+  coverImageUrl?: string | null;
+  preNotesImageUrl?: string | null;
   validUntil?: Date | null;
   items: ProposalItemInput[];
 };
@@ -91,6 +93,8 @@ export async function createProposal(input: CreateProposalInput) {
         companyName: input.companyName?.trim() || null,
         summary: input.summary?.trim() || null,
         notes: input.notes?.trim() || null,
+        coverImageUrl: input.coverImageUrl?.trim() || null,
+        preNotesImageUrl: input.preNotesImageUrl?.trim() || null,
         validUntil: input.validUntil ?? null,
         shareToken,
         items: {

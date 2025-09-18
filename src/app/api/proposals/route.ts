@@ -21,6 +21,8 @@ type RawProposalPayload = {
   companyName?: unknown;
   summary?: unknown;
   notes?: unknown;
+  coverImageUrl?: unknown;
+  preNotesImageUrl?: unknown;
   validUntil?: unknown;
   items?: unknown;
 };
@@ -75,6 +77,12 @@ function parseBody(body: unknown): CreateProposalInput {
     companyName: typeof data.companyName === "string" ? data.companyName : undefined,
     summary: typeof data.summary === "string" ? data.summary : undefined,
     notes: typeof data.notes === "string" ? data.notes : undefined,
+    coverImageUrl:
+      typeof data.coverImageUrl === "string" ? (data.coverImageUrl.trim() || undefined) : undefined,
+    preNotesImageUrl:
+      typeof data.preNotesImageUrl === "string"
+        ? (data.preNotesImageUrl.trim() || undefined)
+        : undefined,
     validUntil: validUntil && !Number.isNaN(validUntil.getTime()) ? validUntil : undefined,
     items: parseItems(data.items),
   };

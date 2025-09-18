@@ -73,6 +73,12 @@ export default async function ProposalDetailsPage({
       </section>
 
       <section className="space-y-6">
+        {proposal.coverImageUrl && (
+          <div className="overflow-hidden rounded-xl">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={proposal.coverImageUrl} alt="Обложка" className="h-auto w-full object-cover" />
+          </div>
+        )}
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900">Информация о клиенте</h2>
           <dl className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -141,6 +147,13 @@ export default async function ProposalDetailsPage({
             </div>
           </div>
         </div>
+
+        {proposal.preNotesImageUrl && (
+          <div className="overflow-hidden rounded-xl">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={proposal.preNotesImageUrl} alt="Изображение перед условиями" className="h-auto w-full object-cover" />
+          </div>
+        )}
 
         {proposal.notes && (
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">

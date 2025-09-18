@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { formatCurrency } from "@/lib/format";
+import { ImageUploader } from "@/components/image-uploader";
 
 type ProposalItemDraft = {
   name: string;
@@ -29,6 +30,8 @@ export function CreateProposalForm() {
   const [companyName, setCompanyName] = useState("");
   const [summary, setSummary] = useState("");
   const [notes, setNotes] = useState("");
+  const [coverImageUrl, setCoverImageUrl] = useState<string | null>(null);
+  const [preNotesImageUrl, setPreNotesImageUrl] = useState<string | null>(null);
   const [validUntil, setValidUntil] = useState("");
   const [items, setItems] = useState<ProposalItemDraft[]>([createEmptyItem()]);
   const [error, setError] = useState<string | null>(null);
@@ -105,6 +108,8 @@ export function CreateProposalForm() {
           companyName,
           summary,
           notes,
+          coverImageUrl,
+          preNotesImageUrl,
           validUntil: validUntil || null,
           items: preparedItems,
         }),
@@ -128,56 +133,65 @@ export function CreateProposalForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
-      <section className="grid gap-4 sm:grid-cols-2">
-        <div className="sm:col-span-2">
+      {/* Название */}
+      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <label className="flex flex-col gap-2 text-sm">
+          <span className="font-medium text-slate-700">Название предложения *</span>
+          <input
+            type="text"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            className="h-11 rounded-md border border-slate-300 px-3 text-base outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            placeholder="Например, КП для компании Х"
+          />
+        </label>
+      </section>
+
+      {/* Данные клиента */}
+      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="grid gap-4 sm:grid-cols-2">
           <label className="flex flex-col gap-2 text-sm">
-            <span className="font-medium text-slate-700">Название предложения *</span>
+            <span className="font-medium text-slate-700">Имя контакта</span>
             <input
               type="text"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              value={clientName}
+              onChange={(event) => setClientName(event.target.value)}
               className="h-11 rounded-md border border-slate-300 px-3 text-base outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
-              placeholder="Например, КП для компании Х"
+            />
+          </label>
+          <label className="flex flex-col gap-2 text-sm">
+            <span className="font-medium text-slate-700">Email клиента</span>
+            <input
+              type="email"
+              value={clientEmail}
+              onChange={(event) => setClientEmail(event.target.value)}
+              className="h-11 rounded-md border border-slate-300 px-3 text-base outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            />
+          </label>
+          <label className="flex flex-col gap-2 text-sm">
+            <span className="font-medium text-slate-700">Компания клиента</span>
+            <input
+              type="text"
+              value={companyName}
+              onChange={(event) => setCompanyName(event.target.value)}
+              className="h-11 rounded-md border border-slate-300 px-3 text-base outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            />
+          </label>
+          <label className="flex flex-col gap-2 text-sm">
+            <span className="font-medium text-slate-700">Действительно до</span>
+            <input
+              type="date"
+              value={validUntil}
+              onChange={(event) => setValidUntil(event.target.value)}
+              className="h-11 rounded-md border border-slate-300 px-3 text-base outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
             />
           </label>
         </div>
+      </section>
+
+      {/* Краткое описание */}
+      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
         <label className="flex flex-col gap-2 text-sm">
-          <span className="font-medium text-slate-700">Имя контакта</span>
-          <input
-            type="text"
-            value={clientName}
-            onChange={(event) => setClientName(event.target.value)}
-            className="h-11 rounded-md border border-slate-300 px-3 text-base outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
-          />
-        </label>
-        <label className="flex flex-col gap-2 text-sm">
-          <span className="font-medium text-slate-700">Email клиента</span>
-          <input
-            type="email"
-            value={clientEmail}
-            onChange={(event) => setClientEmail(event.target.value)}
-            className="h-11 rounded-md border border-slate-300 px-3 text-base outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
-          />
-        </label>
-        <label className="flex flex-col gap-2 text-sm">
-          <span className="font-medium text-slate-700">Компания клиента</span>
-          <input
-            type="text"
-            value={companyName}
-            onChange={(event) => setCompanyName(event.target.value)}
-            className="h-11 rounded-md border border-slate-300 px-3 text-base outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
-          />
-        </label>
-        <label className="flex flex-col gap-2 text-sm">
-          <span className="font-medium text-slate-700">Действительно до</span>
-          <input
-            type="date"
-            value={validUntil}
-            onChange={(event) => setValidUntil(event.target.value)}
-            className="h-11 rounded-md border border-slate-300 px-3 text-base outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
-          />
-        </label>
-        <label className="sm:col-span-2 flex flex-col gap-2 text-sm">
           <span className="font-medium text-slate-700">Краткое описание</span>
           <textarea
             value={summary}
@@ -187,7 +201,18 @@ export function CreateProposalForm() {
             placeholder="Основная ценность и контекст предложения"
           />
         </label>
-        <label className="sm:col-span-2 flex flex-col gap-2 text-sm">
+      </section>
+
+      {/* Обложка */}
+      <ImageUploader
+        label="Обложка (изображение во всю ширину)"
+        value={coverImageUrl ?? undefined}
+        onChange={setCoverImageUrl}
+      />
+
+      {/* Дополнительные условия */}
+      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <label className="flex flex-col gap-2 text-sm">
           <span className="font-medium text-slate-700">Дополнительные условия</span>
           <textarea
             value={notes}
@@ -198,6 +223,13 @@ export function CreateProposalForm() {
           />
         </label>
       </section>
+
+      {/* Изображение перед "Доп. условия" */}
+      <ImageUploader
+        label='Изображение перед разделом "Доп. условия"'
+        value={preNotesImageUrl ?? undefined}
+        onChange={setPreNotesImageUrl}
+      />
 
       <section className="space-y-4">
         <div className="flex items-center justify-between">

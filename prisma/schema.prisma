@@ -16,6 +16,10 @@ model Proposal {
   companyName     String?
   summary         String?
   notes           String?
+  // URL изображения-обложки (полная ширина в самом верху)
+  coverImageUrl   String?
+  // URL изображения перед блоком "Дополнительные условия"
+  preNotesImageUrl String?
   validUntil      DateTime?
   shareToken      String          @unique
   createdAt       DateTime        @default(now())

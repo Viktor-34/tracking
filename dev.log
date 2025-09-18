@@ -1,0 +1,26 @@
+
+> tracking@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.3
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.2.35:3000
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1645ms
+ ○ Compiling /api/proposals/[id]/pdf ...
+ ✓ Compiled /api/proposals/[id]/pdf in 806ms (304 modules)
+Error: Unknown font format
+    at GET (src/app/api/proposals/[id]/pdf/route.ts:81:6)
+  79 | 	await tryDrawImage(proposal.coverImageUrl ?? undefined);
+  80 |
+> 81 | 	doc.font(FONT_BOLD).fontSize(20).text(proposal.title, { align: "left" });
+     | 	    ^
+  82 | 	doc.moveDown(0.5);
+  83 |
+  84 | 	doc.fontSize(12).font(FONT_NORMAL);
+ GET /api/proposals/cmfpcneoy0000fkq5qqauy7so/pdf 500 in 1376ms
+ ✓ Compiled in 135ms (194 modules)
+ ✓ Compiled in 33ms
+[?25h
